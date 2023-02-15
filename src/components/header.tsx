@@ -16,7 +16,10 @@ const Header: FunctionComponent<HeaderProps> = () => {
               <Link to={`/profile/`}>Profile</Link>
             </li>
             <li>
-              <Link to={`/login/`}>Login</Link>
+              <Link to={`/login/`}>Sign in</Link>
+            </li>
+            <li>
+              <Link to={`/register/`}>Sign up</Link>
             </li>
           </ul>
         </div>
