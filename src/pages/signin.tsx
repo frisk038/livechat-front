@@ -9,11 +9,27 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../services/firebase";
+import { useNavigate } from "react-router-dom";
 
 interface SignInProps {}
 
 const SignIn: FunctionComponent<SignInProps> = () => {
-  const handleSubmit = () => {};
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (e.currentTarget.elements.namedItem("password") as HTMLInputElement).value;
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        navigate("/profile");
+      })
+      .catch((reason) => {
+        alert(reason);
+      });
+  };
 
   return (
     <Container maxWidth="xs">
@@ -64,7 +80,7 @@ const SignIn: FunctionComponent<SignInProps> = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
