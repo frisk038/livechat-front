@@ -9,11 +9,13 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
+import { AuthContext } from "../components/authprovider";
 
 interface ProfileProps {}
 
 const Profile: FunctionComponent<ProfileProps> = () => {
+  const currentUser = useContext(AuthContext);
   const [nbReveal, setNbReveal] = useState(0);
   const [nbMatch, setnbMatch] = useState(0);
   const [matchLst, setmatchLst] = useState([
@@ -21,6 +23,13 @@ const Profile: FunctionComponent<ProfileProps> = () => {
     { name: "Robert", date: "Jan 13, 2016" },
     { name: "Denis", date: "Jan 24, 2019" },
   ]);
+  const [email, setEmail] = useState("");
+  const [lname, setLname] = useState("");
+
+  useEffect(() => {
+    setEmail(currentUser?.email || "");
+    setLname(currentUser?.displayName || "");
+  }, [currentUser]);
 
   return (
     <Container>
@@ -54,6 +63,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                value={lname}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -74,6 +84,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
               />
             </Grid>
             <Grid item xs={6}>
