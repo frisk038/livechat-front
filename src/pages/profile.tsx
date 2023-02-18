@@ -23,13 +23,13 @@ const Profile: FunctionComponent<ProfileProps> = () => {
     { name: "Robert", date: "Jan 13, 2016" },
     { name: "Denis", date: "Jan 24, 2019" },
   ]);
-  const [email, setEmail] = useState("");
-  const [lname, setLname] = useState("");
 
-  useEffect(() => {
-    setEmail(currentUser?.email || "");
-    setLname(currentUser?.displayName || "");
-  }, [currentUser]);
+  // const [email, setEmail] = useState("");
+  // const [lname, setLname] = useState("");
+  // useEffect(() => {
+  //   setEmail(currentUser?.email || "");
+  //   setLname(currentUser?.displayName || "");
+  // }, [currentUser]);
 
   return (
     <Container>
@@ -63,7 +63,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
                 id="firstName"
                 label="First Name"
                 autoFocus
-                value={lname}
+                value={currentUser?.displayName?.split("_")[1] || ""}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -74,6 +74,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                value={currentUser?.displayName?.split("_")[0] || ""}
               />
             </Grid>
             <Grid item xs={12}>
@@ -84,7 +85,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                value={email}
+                value={currentUser?.email || ""}
               />
             </Grid>
             <Grid item xs={6}>

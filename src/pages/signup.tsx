@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { auth } from "../services/firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 interface SignUpProps {}
@@ -20,9 +20,17 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
     e.preventDefault();
     const email = (e.currentTarget.elements.namedItem("email") as HTMLInputElement).value;
     const password = (e.currentTarget.elements.namedItem("password") as HTMLInputElement).value;
+    const lastName = (e.currentTarget.elements.namedItem("lastName") as HTMLInputElement).value;
+    const firstName = (e.currentTarget.elements.namedItem("firstName") as HTMLInputElement).value;
     await createUserWithEmailAndPassword(auth, email, password)
       .then((cred) => {
-        navigate("/profile");
+        updateProfile(cred.user, { displayName: `${lastName}_${firstName}` })
+          .then(() => {
+            navigate("/profile");
+          })
+          .catch((reason) => {
+            alert(reason);
+          });
       })
       .catch((reason) => {
         alert(reason);
