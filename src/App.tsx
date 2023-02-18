@@ -1,8 +1,6 @@
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import { createBrowserRouter, Link, Outlet, RouterProvider } from "react-router-dom";
-import AuthProvider from "./components/authprovider";
-import Header from "./components/header";
+import AuthProvider from "./store/authprovider";
 import Profile from "./pages/profile";
 import SignIn from "./pages/signin";
 import SignUp from "./pages/signup";

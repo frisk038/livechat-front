@@ -8,8 +8,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { auth } from "../services/firebase";
-import { createUserWithEmailAndPassword, updateProfile, User } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { userApi } from "../services/user";
+import User from "../models/user";
 
 interface SignUpProps {}
 
@@ -26,6 +28,7 @@ const SignUp: FunctionComponent<SignUpProps> = () => {
       .then((cred) => {
         updateProfile(cred.user, { displayName: `${lastName}_${firstName}` })
           .then(() => {
+            userApi.registerUser(new User(cred.user.uid, lastName, firstName, []));
             navigate("/profile");
           })
           .catch((reason) => {

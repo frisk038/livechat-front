@@ -10,7 +10,7 @@ import ListSubheader from "@mui/material/ListSubheader";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { FunctionComponent, useContext, useEffect, useState } from "react";
-import { AuthContext } from "../components/authprovider";
+import { AuthContext } from "../store/authprovider";
 
 interface ProfileProps {}
 
