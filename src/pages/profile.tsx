@@ -1,3 +1,4 @@
+import { AddCircleOutline } from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -9,7 +10,8 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { FunctionComponent, useContext, useEffect, useState } from "react";
+import { FunctionComponent, useContext, useState } from "react";
+import InputTextIcon from "../components/inputTextIcon";
 import { AuthContext } from "../store/authprovider";
 
 interface ProfileProps {}
@@ -94,6 +96,19 @@ const Profile: FunctionComponent<ProfileProps> = () => {
             <Grid item xs={6}>
               <Typography>Nb. Reveal: {nbReveal}</Typography>
             </Grid>
+
+            <Grid item xs={12}>
+              <InputTextIcon
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  alert(
+                    (e.currentTarget.elements.namedItem("inputText") as HTMLInputElement).value
+                  );
+                }}
+                icon={<AddCircleOutline />}
+              ></InputTextIcon>
+            </Grid>
+
             <Grid item xs={12}>
               <List
                 subheader={
