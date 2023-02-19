@@ -7,6 +7,8 @@ import { FunctionComponent } from "react";
 interface InputTextIconProps {
   icon: React.ReactElement<SvgIconProps>;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  value: string;
 }
 
 const InputTextIcon: FunctionComponent<InputTextIconProps> = (props) => {
@@ -30,6 +32,8 @@ const InputTextIcon: FunctionComponent<InputTextIconProps> = (props) => {
         required
         fullWidth
         id="inputText"
+        value={props.value}
+        onChange={props.onChange}
       />
 
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
