@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { FunctionComponent, useContext, useState } from "react";
+import { FunctionComponent, useContext, useEffect, useState } from "react";
 import InputTextIcon from "../components/inputTextIcon";
 import User from "../models/user";
 import { userApi } from "../services/user";
@@ -33,6 +33,17 @@ const Profile: FunctionComponent<ProfileProps> = () => {
   ]);
   const [hobbies, setHobbies] = useState<string[]>([]);
   const [newHobby, setNewHobby] = useState("");
+
+  useEffect(() => {
+    const fetchHobbies = async () => {
+      if (currentUser) {
+        const hobbies = await userApi.getUserHobbies(currentUser.uid);
+        setHobbies(hobbies);
+      }
+    };
+
+    fetchHobbies();
+  }, [currentUser]);
 
   const handleAddHobbies = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,13 +69,6 @@ const Profile: FunctionComponent<ProfileProps> = () => {
   ) => {
     setNewHobby(event.target.value);
   };
-
-  // const [email, setEmail] = useState("");
-  // const [lname, setLname] = useState("");
-  // useEffect(() => {
-  //   setEmail(currentUser?.email || "");
-  //   setLname(currentUser?.displayName || "");
-  // }, [currentUser]);
 
   return (
     <Container>

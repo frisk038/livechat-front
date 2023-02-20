@@ -2,6 +2,7 @@ import User from "../models/user";
 
 export const userApi = {
   registerUser: (user: User) => {
+    console.log(JSON.stringify(user));
     fetch(`${import.meta.env.VITE_api_baseurl}/user`, {
       method: "POST",
       headers: {
@@ -18,35 +19,53 @@ export const userApi = {
       });
   },
   registerUserHobbies: (userID: string, hobby: string) => {
-    fetch(`${import.meta.env.VITE_api_baseurl}/user/${userID}/hobby`, {
+    fetch(`${import.meta.env.VITE_api_baseurl}/user/${userID}/hobby/${hobby}`, {
       method: "POST",
       headers: {
         "Content-Type": "text/plain",
       },
       body: JSON.stringify({ hobby }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
+      .then((response) => response.status)
+      .then((code) => {
+        console.log("Success:", code);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   },
   deleteUserHobbies: (userID: string, hobby: string) => {
-    fetch(`${import.meta.env.VITE_api_baseurl}/user/${userID}/hobby`, {
+    fetch(`${import.meta.env.VITE_api_baseurl}/user/${userID}/hobby/${hobby}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "text/plain",
       },
       body: JSON.stringify({ hobby }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
+      .then((response) => response.status)
+      .then((code) => {
+        console.log("Success:", code);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+  },
+  getUserHobbies: (userID: string): Promise<string[]> => {
+    const hobbies = fetch(`${import.meta.env.VITE_api_baseurl}/user/${userID}/hobbies`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        return data["hobbies"];
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+    return hobbies;
   },
 };
