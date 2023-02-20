@@ -12,6 +12,8 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { FunctionComponent, useContext, useState } from "react";
 import InputTextIcon from "../components/inputTextIcon";
+import User from "../models/user";
+import { userApi } from "../services/user";
 import { AuthContext } from "../store/authprovider";
 
 interface ProfileProps {}
@@ -34,16 +36,21 @@ const Profile: FunctionComponent<ProfileProps> = () => {
 
   const handleAddHobbies = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const newHobbies = [
-      ...hobbies,
-      (event.currentTarget.elements.namedItem("inputText") as HTMLInputElement).value,
-    ];
+
+    const newHobby = (event.currentTarget.elements.namedItem("inputText") as HTMLInputElement)
+      .value;
+    const newHobbies = [...hobbies, newHobby];
     setHobbies(newHobbies);
+
+    if (currentUser) userApi.registerUserHobbies(currentUser.uid, newHobby);
+    else alert("cant update hobbies user is null");
     setNewHobby("");
   };
 
   const handleDeleteHobby = (hobbyTodelete: string) => () => {
     setHobbies((hobs) => hobs.filter((hob) => hob !== hobbyTodelete));
+    if (currentUser) userApi.deleteUserHobbies(currentUser.uid, hobbyTodelete);
+    else alert("cant delete hobbies user is null");
   };
 
   const handleChangeHobbies = (
