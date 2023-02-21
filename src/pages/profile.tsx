@@ -38,7 +38,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
     const fetchHobbies = async () => {
       if (currentUser) {
         const hobbies = await userApi.getUserHobbies(currentUser.uid);
-        setHobbies(hobbies);
+        setHobbies(hobbies ? hobbies : []);
       }
     };
 
