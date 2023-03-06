@@ -1,9 +1,9 @@
 class Hobby {
-  UID: string;
+  id: string;
   name: string;
 
-  constructor(uid: string, name: string) {
-    this.UID = uid;
+  constructor(id: string, name: string) {
+    this.id = id;
     this.name = name;
   }
 }

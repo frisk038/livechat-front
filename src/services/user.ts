@@ -1,3 +1,4 @@
+import Hobby from "../models/hobby";
 import User from "../models/user";
 
 export const userApi = {
@@ -50,7 +51,7 @@ export const userApi = {
         console.error("Error:", error);
       });
   },
-  getUserHobbies: (userID: string): Promise<string[]> => {
+  getUserHobbies: (userID: string): Promise<Hobby[]> => {
     const hobbies = fetch(`${import.meta.env.VITE_api_baseurl}/user/${userID}/hobbies`, {
       method: "GET",
       headers: {
@@ -59,7 +60,6 @@ export const userApi = {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Success:", data);
         return data["hobbies"];
       })
       .catch((error) => {

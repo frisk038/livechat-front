@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { FunctionComponent, useContext, useEffect, useState } from "react";
 import InputTextIcon from "../components/inputTextIcon";
+import Hobby from "../models/hobby";
 import User from "../models/user";
 import { userApi } from "../services/user";
 import { AuthContext } from "../store/authprovider";
@@ -31,7 +32,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
     { name: "Robert", date: "Jan 13, 2016" },
     { name: "Denis", date: "Jan 24, 2019" },
   ]);
-  const [hobbies, setHobbies] = useState<string[]>([]);
+  const [hobbies, setHobbies] = useState<Hobby[]>([]);
   const [newHobby, setNewHobby] = useState("");
 
   useEffect(() => {
@@ -48,9 +49,9 @@ const Profile: FunctionComponent<ProfileProps> = () => {
   const handleAddHobbies = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newHobby = (event.currentTarget.elements.namedItem("inputText") as HTMLInputElement)
+    const newHobbyName = (event.currentTarget.elements.namedItem("inputText") as HTMLInputElement)
       .value;
-    const newHobbies = [...hobbies, newHobby];
+    const newHobbies = [...hobbies, new Hobby(newHobbyName, newHobbyName)];
     setHobbies(newHobbies);
 
     if (currentUser) userApi.registerUserHobbies(currentUser.uid, newHobby);
@@ -59,7 +60,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
   };
 
   const handleDeleteHobby = (hobbyTodelete: string) => () => {
-    setHobbies((hobs) => hobs.filter((hob) => hob !== hobbyTodelete));
+    setHobbies((hobs) => hobs.filter((hob) => hob.id !== hobbyTodelete));
     if (currentUser) userApi.deleteUserHobbies(currentUser.uid, hobbyTodelete);
     else alert("cant delete hobbies user is null");
   };
@@ -157,8 +158,8 @@ const Profile: FunctionComponent<ProfileProps> = () => {
             >
               {hobbies.map((hobby) => {
                 return (
-                  <ListItem key={hobby}>
-                    <Chip label={hobby} onDelete={handleDeleteHobby(hobby)} />
+                  <ListItem key={hobby.id}>
+                    <Chip label={hobby.name} onDelete={handleDeleteHobby(hobby.id)} />
                   </ListItem>
                 );
               })}
